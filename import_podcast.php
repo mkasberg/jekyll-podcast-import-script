@@ -60,11 +60,7 @@ function writePost(SimpleXMLElement $item)
     $date = new DateTime($item->pubDate);
     $filename = $date->format('Y-m-d') . '-' . slugify($item->title) . '.md';
 
-    if (!preg_match('/audio\/(.*\.(?:m4a|mp3))/', $item->guid, $matches))
-    {
-        throw new Exception('Could not match audio filename.');
-    }
-    $audioFile = $matches[1];
+    $audioFile = $item->enclosure['url'];
 
     $tags = explode(',', $iTunes->keywords);
     $tags = array_map('trim', $tags);
